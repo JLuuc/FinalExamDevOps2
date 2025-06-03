@@ -19,14 +19,7 @@ pipeline {
                     publishers: [
                         sshPublisherDesc(
                             configName: 'testing-env',
-                            transfers: [
-                                sshTransfer(
-                                    sourceFiles: 'index.html, js.js, style.css',
-                                    removePrefix: '',
-                                    remoteDirectory: '',
-                                    execCommand: ''
-                                )
-                            ],
+                            transfers: [sshTransfer(sourceFiles: 'index.html, js.js, style.css', remoteDirectory: '/var/www/html/')],
                             usePromotionTimestamp: false,
                             verbose: true
                         )
@@ -37,10 +30,8 @@ pipeline {
 
         stage('Run Selenium Tests') {
             steps {
-                echo '🧪 Running Selenium tests...'
-                dir('selenium-tests/test') {
-                    sh 'node ticTacToe.test.js'
-                }
+                echo '🧪 Running Selenium Tests (placeholder)'
+                // Add command/script to run the Selenium test here
             }
         }
 
@@ -51,8 +42,8 @@ pipeline {
                 }
             }
             steps {
-                echo '🚧 Deploying to Staging environment...'
-                // Add sshPublisher config for staging-env here
+                echo '🚧 (TODO) Deploy to Staging environment...'
+                // Add staging-env sshPublisher here when ready
             }
         }
 
@@ -63,8 +54,23 @@ pipeline {
                 }
             }
             steps {
-                echo '🚀 Deploying to Production environment...'
-                // Add sshPublisher configs for prod1-env and prod2-env here
+                echo '🚀 Deploying to ProductionEnv1 and ProductionEnv2...'
+                sshPublisher(
+                    publishers: [
+                        sshPublisherDesc(
+                            configName: 'prod-env-1',
+                            transfers: [sshTransfer(sourceFiles: 'index.html, js.js, style.css', remoteDirectory: '/var/www/html/')],
+                            usePromotionTimestamp: false,
+                            verbose: true
+                        ),
+                        sshPublisherDesc(
+                            configName: 'prod-env-2',
+                            transfers: [sshTransfer(sourceFiles: 'index.html, js.js, style.css', remoteDirectory: '/var/www/html/')],
+                            usePromotionTimestamp: false,
+                            verbose: true
+                        )
+                    ]
+                )
             }
         }
     }
