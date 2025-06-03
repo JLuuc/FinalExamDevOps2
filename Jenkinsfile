@@ -22,9 +22,7 @@ pipeline {
                             transfers: [
                                 sshTransfer(
                                     sourceFiles: 'index.html, js.js, style.css',
-                                    removePrefix: '',
-                                    remoteDirectory: '/var/www/html',
-                                    execCommand: ''
+                                    remoteDirectory: 'var/www/html'
                                 )
                             ],
                             verbose: true
@@ -41,6 +39,9 @@ pipeline {
         }
 
         stage('Deploy to Production') {
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+            }
             steps {
                 echo '🚀 Deploying to Production instances...'
                 sshPublisher(
@@ -50,9 +51,7 @@ pipeline {
                             transfers: [
                                 sshTransfer(
                                     sourceFiles: 'index.html, js.js, style.css',
-                                    removePrefix: '',
-                                    remoteDirectory: '/var/www/html',
-                                    execCommand: ''
+                                    remoteDirectory: 'var/www/html'
                                 )
                             ],
                             verbose: true
@@ -62,9 +61,7 @@ pipeline {
                             transfers: [
                                 sshTransfer(
                                     sourceFiles: 'index.html, js.js, style.css',
-                                    removePrefix: '',
-                                    remoteDirectory: '/var/www/html',
-                                    execCommand: ''
+                                    remoteDirectory: 'var/www/html'
                                 )
                             ],
                             verbose: true
