@@ -19,7 +19,14 @@ pipeline {
                     publishers: [
                         sshPublisherDesc(
                             configName: 'testing-env',
-                            transfers: [sshTransfer(sourceFiles: 'index.html, js.js, style.css', remoteDirectory: '/var/www/html/')],
+                            transfers: [
+                                sshTransfer(
+                                    sourceFiles: 'index.html, js.js, style.css',
+                                    removePrefix: '',
+                                    remoteDirectory: '/var/www/html',
+                                    execCommand: ''
+                                )
+                            ],
                             usePromotionTimestamp: false,
                             verbose: true
                         )
@@ -31,27 +38,23 @@ pipeline {
         stage('Run Selenium Tests') {
             steps {
                 echo '🧪 Running Selenium Tests (placeholder)'
-                // Add command/script to run the Selenium test here
+                // Run Selenium tests here
             }
         }
 
         stage('Deploy to Staging') {
             when {
-                expression {
-                    currentBuild.result == null || currentBuild.result == 'SUCCESS'
-                }
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
             }
             steps {
                 echo '🚧 (TODO) Deploy to Staging environment...'
-                // Add staging-env sshPublisher here when ready
+                // Add SSH deploy step for staging
             }
         }
 
         stage('Deploy to Production') {
             when {
-                expression {
-                    currentBuild.result == null || currentBuild.result == 'SUCCESS'
-                }
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
             }
             steps {
                 echo '🚀 Deploying to ProductionEnv1 and ProductionEnv2...'
@@ -59,13 +62,27 @@ pipeline {
                     publishers: [
                         sshPublisherDesc(
                             configName: 'prod-env-1',
-                            transfers: [sshTransfer(sourceFiles: 'index.html, js.js, style.css', remoteDirectory: '/var/www/html/')],
+                            transfers: [
+                                sshTransfer(
+                                    sourceFiles: 'index.html, js.js, style.css',
+                                    removePrefix: '',
+                                    remoteDirectory: '/var/www/html',
+                                    execCommand: ''
+                                )
+                            ],
                             usePromotionTimestamp: false,
                             verbose: true
                         ),
                         sshPublisherDesc(
                             configName: 'prod-env-2',
-                            transfers: [sshTransfer(sourceFiles: 'index.html, js.js, style.css', remoteDirectory: '/var/www/html/')],
+                            transfers: [
+                                sshTransfer(
+                                    sourceFiles: 'index.html, js.js, style.css',
+                                    removePrefix: '',
+                                    remoteDirectory: '/var/www/html',
+                                    execCommand: ''
+                                )
+                            ],
                             usePromotionTimestamp: false,
                             verbose: true
                         )
