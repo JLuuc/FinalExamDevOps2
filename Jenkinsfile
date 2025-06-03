@@ -22,9 +22,7 @@ pipeline {
                             transfers: [
                                 sshTransfer(
                                     sourceFiles: 'index.html, js.js, style.css',
-                                    removePrefix: '',
-                                    remoteDirectory: '/var/www/html',
-                                    cleanRemote: true
+                                    remoteDirectory: '/var/www/html'
                                 )
                             ],
                             verbose: true
@@ -50,9 +48,7 @@ pipeline {
                             transfers: [
                                 sshTransfer(
                                     sourceFiles: 'index.html, js.js, style.css',
-                                    removePrefix: '',
-                                    remoteDirectory: '/var/www/html',
-                                    cleanRemote: true
+                                    remoteDirectory: '/var/www/html'
                                 )
                             ],
                             verbose: true
@@ -62,9 +58,7 @@ pipeline {
                             transfers: [
                                 sshTransfer(
                                     sourceFiles: 'index.html, js.js, style.css',
-                                    removePrefix: '',
-                                    remoteDirectory: '/var/www/html',
-                                    cleanRemote: true
+                                    remoteDirectory: '/var/www/html'
                                 )
                             ],
                             verbose: true
