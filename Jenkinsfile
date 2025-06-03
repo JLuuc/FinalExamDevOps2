@@ -1,6 +1,3 @@
-git add Jenkinsfile
-git commit -m "Deploy to both production environments"
-git push origin main
 pipeline {
     agent any
 
@@ -40,29 +37,12 @@ pipeline {
         stage('Run Selenium Tests') {
             steps {
                 echo '🧪 Running Selenium Tests (placeholder)'
-                // You can run your Selenium here later
-            }
-        }
-
-        stage('Deploy to Staging') {
-            when {
-                expression {
-                    currentBuild.result == null || currentBuild.result == 'SUCCESS'
-                }
-            }
-            steps {
-                echo '🚧 (TODO) Deploy to Staging environment...'
             }
         }
 
         stage('Deploy to Production') {
-            when {
-                expression {
-                    currentBuild.result == null || currentBuild.result == 'SUCCESS'
-                }
-            }
             steps {
-                echo '🚀 Deploying to ProductionEnv1 and ProductionEnv2...'
+                echo '🚀 Deploying to Production instances...'
                 sshPublisher(
                     publishers: [
                         sshPublisherDesc(
@@ -70,6 +50,7 @@ pipeline {
                             transfers: [
                                 sshTransfer(
                                     sourceFiles: 'index.html, js.js, style.css',
+                                    removePrefix: '',
                                     remoteDirectory: '/var/www/html',
                                     execCommand: ''
                                 )
@@ -81,6 +62,7 @@ pipeline {
                             transfers: [
                                 sshTransfer(
                                     sourceFiles: 'index.html, js.js, style.css',
+                                    removePrefix: '',
                                     remoteDirectory: '/var/www/html',
                                     execCommand: ''
                                 )
