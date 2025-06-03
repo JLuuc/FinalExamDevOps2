@@ -39,9 +39,6 @@ pipeline {
         }
 
         stage('Deploy to Production') {
-            when {
-                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
-            }
             steps {
                 echo '🚀 Deploying to Production instances...'
                 sshPublisher(
