@@ -1,3 +1,6 @@
+git add Jenkinsfile
+git commit -m "Deploy to both production environments"
+git push origin main
 pipeline {
     agent any
 
@@ -27,7 +30,6 @@ pipeline {
                                     execCommand: ''
                                 )
                             ],
-                            usePromotionTimestamp: false,
                             verbose: true
                         )
                     ]
@@ -38,23 +40,26 @@ pipeline {
         stage('Run Selenium Tests') {
             steps {
                 echo '🧪 Running Selenium Tests (placeholder)'
-                // Run Selenium tests here
+                // You can run your Selenium here later
             }
         }
 
         stage('Deploy to Staging') {
             when {
-                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+                expression {
+                    currentBuild.result == null || currentBuild.result == 'SUCCESS'
+                }
             }
             steps {
                 echo '🚧 (TODO) Deploy to Staging environment...'
-                // Add SSH deploy step for staging
             }
         }
 
         stage('Deploy to Production') {
             when {
-                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+                expression {
+                    currentBuild.result == null || currentBuild.result == 'SUCCESS'
+                }
             }
             steps {
                 echo '🚀 Deploying to ProductionEnv1 and ProductionEnv2...'
@@ -65,12 +70,10 @@ pipeline {
                             transfers: [
                                 sshTransfer(
                                     sourceFiles: 'index.html, js.js, style.css',
-                                    removePrefix: '',
                                     remoteDirectory: '/var/www/html',
                                     execCommand: ''
                                 )
                             ],
-                            usePromotionTimestamp: false,
                             verbose: true
                         ),
                         sshPublisherDesc(
@@ -78,12 +81,10 @@ pipeline {
                             transfers: [
                                 sshTransfer(
                                     sourceFiles: 'index.html, js.js, style.css',
-                                    removePrefix: '',
                                     remoteDirectory: '/var/www/html',
                                     execCommand: ''
                                 )
                             ],
-                            usePromotionTimestamp: false,
                             verbose: true
                         )
                     ]
